@@ -1,0 +1,33 @@
+<?php
+
+use Hunter\paging\Paging;
+
+/**
+ * Implements hook_config_form().
+ */
+function paging_config_form() {
+  $form['paging_automatic_words'] = array(
+    '#type' => 'textfield',
+    '#required' => TRUE,
+    '#title' => t('分页长度'),
+    '#default_value' => variable_get('paging_automatic_words', 6000),
+  );
+
+  $form['form_id'] = 'paging_settings';
+  $form['name'] = t('内容分页设置');
+
+  return $form;
+}
+
+/**
+ * 调用内容分页.
+ */
+function paging($content) {
+  $data = array();
+  $ipage = isset($_GET["ipage"]) ? intval($_GET["ipage"]) : 1;
+  $cp = new Paging($content, variable_get('paging_automatic_words', 6000));
+  $page = $cp->cut_str();
+  $data['content'] = $page[$ipage - 1];
+  $data['pager'] = $cp->pagenav();
+  return $data;
+}

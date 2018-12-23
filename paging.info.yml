@@ -1,0 +1,5 @@
+name: Paging
+type: module
+description: Content paging module for HunterPHP.
+core: 1.x
+package: Hunter
